@@ -1,0 +1,12 @@
+#+TITLE: Experiments
+
+I've designated this subdomain as a space for my
+for web-based experiments, one-off designs and other
+creative endeavors.
+
+It's deliberately not as accessible as my other publicly
+hosted web prescences, as pages on this site are not meant
+to be used to seriously represent my personal work.
+
+As such, some of them may be incompatible with certain
+browsers or performance intensive.
