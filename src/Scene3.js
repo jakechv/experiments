@@ -1,25 +1,25 @@
-import React, { useEffect, useMemo, useRef } from 'react'
-import * as THREE from 'three'
-import { useResource } from 'react-three-fiber'
-import { Text, Box, Octahedron, Plane } from '@react-three/drei'
-import { Physics, useBox, usePlane } from '@react-three/cannon'
+import React, { useEffect, useMemo, useRef } from "react"
+import * as THREE from "three"
+import { useResource } from "react-three-fiber"
+import { Text, Box, Octahedron, Plane } from "@react-three/drei"
+import { Physics, useBox, usePlane } from "@react-three/cannon"
 
-import useSlerp from './use-slerp'
-import useRenderTarget from './use-render-target'
-import useLayers from './use-layers'
+import useSlerp from "./use-slerp"
+import useRenderTarget from "./use-render-target"
+import useLayers from "./use-layers"
 
 const textProps = {
   fontSize: 4,
-  font: 'https://fonts.gstatic.com/s/kanit/v7/nKKU-Go6G5tXcr4WPBWnVac.woff'
+  font: "https://fonts.gstatic.com/s/kanit/v7/nKKU-Go6G5tXcr4WPBWnVac.woff",
 }
 
-const BG_COLOR = '#921212'
+const BG_COLOR = "#921212"
 const PEDRO_COLOR = "#aaa"
 const CLICKHERE_COLOR = "#f70131"
 const REFLECTION_SIDE_COLOR = "#929292"
 const DARK_SIDE_COLOR = "#921212"
 
-function Title({ layers, label = '', color = 0xffffff, ...props }) {
+function Title({ layers, label = "", color = 0xffffff, ...props }) {
   const group = useRef()
 
   useEffect(() => {
@@ -28,7 +28,14 @@ function Title({ layers, label = '', color = 0xffffff, ...props }) {
 
   return (
     <group {...props} ref={group}>
-      <Text castShadow name={label} depthTest={false} material-toneMapped={false} {...textProps} layers={layers}>
+      <Text
+        castShadow
+        name={label}
+        depthTest={false}
+        material-toneMapped={false}
+        {...textProps}
+        layers={layers}
+      >
         {label}
         <meshBasicMaterial color={color} />
       </Text>
@@ -45,7 +52,13 @@ function TitleCopies({ layers, label, color, ...props }) {
   return (
     <group name="titleCopies" {...props}>
       {vertices.map((vertex, i) => (
-        <Title name={'titleCopy-' + i} label={label} position={vertex} layers={layers} color={color} />
+        <Title
+          name={"titleCopy-" + i}
+          label={label}
+          position={vertex}
+          layers={layers}
+          color={color}
+        />
       ))}
     </group>
   )
@@ -79,7 +92,14 @@ function Mirror({ sideMaterial, reflectionMaterial, ...props }) {
       onClick={() => api.applyImpulse([0, 0, -50], [0, 0, 0])}
       receiveShadow
       castShadow
-      material={[sideMaterial, sideMaterial, sideMaterial, sideMaterial, reflectionMaterial, sideMaterial]}
+      material={[
+        sideMaterial,
+        sideMaterial,
+        sideMaterial,
+        sideMaterial,
+        reflectionMaterial,
+        sideMaterial,
+      ]}
     />
   )
 }
@@ -101,16 +121,28 @@ function Mirrors({ envMap }) {
         position: [
           -COLS + ((index * BOX_SIZE) % (BOX_SIZE * COLS)),
           -1 + BOX_SIZE * Math.floor((index * BOX_SIZE) / (BOX_SIZE * COLS)),
-          0
-        ]
+          0,
+        ],
       })),
     []
   )
 
   return (
     <>
-      <meshPhysicalMaterial ref={sideMaterial} color={DARK_SIDE_COLOR} envMap={envMap} roughness={0.8} metalness={0.2} />
-      <meshPhysicalMaterial ref={reflectionMaterial} envMap={envMap} roughness={0} metalness={1} color={REFLECTION_SIDE_COLOR} />
+      <meshPhysicalMaterial
+        ref={sideMaterial}
+        color={DARK_SIDE_COLOR}
+        envMap={envMap}
+        roughness={0.8}
+        metalness={0.2}
+      />
+      <meshPhysicalMaterial
+        ref={reflectionMaterial}
+        envMap={envMap}
+        roughness={0}
+        metalness={1}
+        color={REFLECTION_SIDE_COLOR}
+      />
       <group name="mirrors">
         {mirrorsData.map((mirror, index) => (
           <Mirror
@@ -151,10 +183,28 @@ export default function Scene() {
           args={[0.1, 100, renderTarget]}
         />
 
-        <Title name="title" label="PEDRO" position={[0, 2, -10]} color={PEDRO_COLOR} />
-        <TitleCopies position={[0, 2, -5]} rotation={[0, 0, 0]} layers={[11]} label="PEDRO"  color={PEDRO_COLOR} />
+        <Title
+          name="title"
+          label="PEDRO"
+          position={[0, 2, -10]}
+          color={PEDRO_COLOR}
+        />
+        <TitleCopies
+          position={[0, 2, -5]}
+          rotation={[0, 0, 0]}
+          layers={[11]}
+          label="PEDRO"
+          color={PEDRO_COLOR}
+        />
 
-        <Title layers={[11]} name="title" label="CLICK HERE" position={[0, 2, 24]} scale={[-1, 1, 1]} color={CLICKHERE_COLOR} />
+        <Title
+          layers={[11]}
+          name="title"
+          label="CLICK HERE"
+          position={[0, 2, 24]}
+          scale={[-1, 1, 1]}
+          color={CLICKHERE_COLOR}
+        />
 
         <Physics gravity={[0, -10, 0]}>
           <Mirrors envMap={renderTarget.texture} />

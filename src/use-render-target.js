@@ -1,17 +1,17 @@
-import { useMemo, useRef } from 'react'
-import * as THREE from 'three'
-import { useFrame } from 'react-three-fiber'
+import { useMemo, useRef } from "react"
+import * as THREE from "three"
+import { useFrame } from "react-three-fiber"
 
 function useRenderTarget(settings = {}) {
   const renderTarget = useMemo(() => {
     const renderTargetSettings = {
       format: THREE.RGBAFormat,
-      generateMipmaps: true
+      generateMipmaps: true,
     }
 
     return new THREE.WebGLCubeRenderTarget(1024, {
       ...renderTargetSettings,
-      ...settings
+      ...settings,
     })
   }, [settings])
 

@@ -19,9 +19,14 @@
  *
  * @author David Lenaerts <http://www.derschmale.com>
  */
-import * as THREE from 'three'
+import * as THREE from "three"
 
-export function ThinFilmFresnelMap(filmThickness, refractiveIndexFilm, refractiveIndexBase, size) {
+export function ThinFilmFresnelMap(
+  filmThickness,
+  refractiveIndexFilm,
+  refractiveIndexBase,
+  size
+) {
   this._filmThickness = filmThickness || 500.0
   this._refractiveIndexFilm = refractiveIndexFilm || 2
   this._refractiveIndexBase = refractiveIndexBase || 3
@@ -54,8 +59,12 @@ ThinFilmFresnelMap.prototype = Object.create(THREE.DataTexture.prototype, {
     },
     set: function (value) {
       this._filmThickness = value
-      this.updateSettings(this._filmThickness, this._refractiveIndexFilm, this._refractiveIndexBase)
-    }
+      this.updateSettings(
+        this._filmThickness,
+        this._refractiveIndexFilm,
+        this._refractiveIndexBase
+      )
+    },
   },
   refractiveIndexFilm: {
     get: function () {
@@ -63,8 +72,12 @@ ThinFilmFresnelMap.prototype = Object.create(THREE.DataTexture.prototype, {
     },
     set: function (value) {
       this._refractiveIndexFilm = value
-      this.updateSettings(this._filmThickness, this._refractiveIndexFilm, this._refractiveIndexBase)
-    }
+      this.updateSettings(
+        this._filmThickness,
+        this._refractiveIndexFilm,
+        this._refractiveIndexBase
+      )
+    },
   },
   refractiveIndexBase: {
     get: function () {
@@ -72,9 +85,13 @@ ThinFilmFresnelMap.prototype = Object.create(THREE.DataTexture.prototype, {
     },
     set: function (value) {
       this._refractiveIndexBase = value
-      this.updateSettings(this._filmThickness, this._refractiveIndexFilm, this._refractiveIndexBase)
-    }
-  }
+      this.updateSettings(
+        this._filmThickness,
+        this._refractiveIndexFilm,
+        this._refractiveIndexBase
+      )
+    },
+  },
 })
 
 /**
@@ -83,7 +100,11 @@ ThinFilmFresnelMap.prototype = Object.create(THREE.DataTexture.prototype, {
  * @param refractiveIndexFilm The refractive index of the thin film. Defaults to 2.
  * @param refractiveIndexBase The refractive index of the material under the film. Defaults to 3.
  */
-ThinFilmFresnelMap.prototype.updateSettings = function (filmThickness, refractiveIndexFilm, refractiveIndexBase) {
+ThinFilmFresnelMap.prototype.updateSettings = function (
+  filmThickness,
+  refractiveIndexFilm,
+  refractiveIndexBase
+) {
   this._filmThickness = filmThickness || 380
   this._refractiveIndexFilm = refractiveIndexFilm || 2
   this._refractiveIndexBase = refractiveIndexBase || 3
@@ -93,7 +114,14 @@ ThinFilmFresnelMap.prototype.updateSettings = function (filmThickness, refractiv
 /**
  * @private
  */
-ThinFilmFresnelMap.prototype._fresnelRefl = function (refractiveIndex1, refractiveIndex2, cos1, cos2, R, phi) {
+ThinFilmFresnelMap.prototype._fresnelRefl = function (
+  refractiveIndex1,
+  refractiveIndex2,
+  cos1,
+  cos2,
+  R,
+  phi
+) {
   // r is amplitudinal, R is power
   var sin1Sqr = 1.0 - cos1 * cos1 // = sin^2(incident)
   var refrRatio = refractiveIndex1 / refractiveIndex2
@@ -105,11 +133,17 @@ ThinFilmFresnelMap.prototype._fresnelRefl = function (refractiveIndex1, refracti
 
     var sqrRefrRatio = refrRatio * refrRatio
     // it looks like glsl's atan ranges are different from those in JS?
-    phi.x = 2.0 * Math.atan((-sqrRefrRatio * Math.sqrt(sin1Sqr - 1.0 / sqrRefrRatio)) / cos1)
+    phi.x =
+      2.0 *
+      Math.atan((-sqrRefrRatio * Math.sqrt(sin1Sqr - 1.0 / sqrRefrRatio)) / cos1)
     phi.y = 2.0 * Math.atan(-Math.sqrt(sin1Sqr - 1.0 / sqrRefrRatio) / cos1)
   } else {
-    var r_p = (refractiveIndex2 * cos1 - refractiveIndex1 * cos2) / (refractiveIndex2 * cos1 + refractiveIndex1 * cos2)
-    var r_s = (refractiveIndex1 * cos1 - refractiveIndex2 * cos2) / (refractiveIndex1 * cos1 + refractiveIndex2 * cos2)
+    var r_p =
+      (refractiveIndex2 * cos1 - refractiveIndex1 * cos2) /
+      (refractiveIndex2 * cos1 + refractiveIndex1 * cos2)
+    var r_s =
+      (refractiveIndex1 * cos1 - refractiveIndex2 * cos2) /
+      (refractiveIndex1 * cos1 + refractiveIndex2 * cos2)
 
     phi.x = r_p < 0.0 ? Math.PI : 0.0
     phi.y = r_s < 0.0 ? Math.PI : 0.0
@@ -133,7 +167,11 @@ ThinFilmFresnelMap.prototype._updateData = function () {
     var t1 = (lambda - 442.0) * (lambda < 442.0 ? 0.0624 : 0.0374)
     var t2 = (lambda - 599.8) * (lambda < 599.8 ? 0.0264 : 0.0323)
     var t3 = (lambda - 501.1) * (lambda < 501.1 ? 0.049 : 0.0382)
-    return 0.362 * Math.exp(-0.5 * t1 * t1) + 1.056 * Math.exp(-0.5 * t2 * t2) - 0.065 * Math.exp(-0.5 * t3 * t3)
+    return (
+      0.362 * Math.exp(-0.5 * t1 * t1) +
+      1.056 * Math.exp(-0.5 * t2 * t2) -
+      0.065 * Math.exp(-0.5 * t3 * t3)
+    )
   }
 
   function yFit_1931(lambda) {
@@ -163,7 +201,9 @@ ThinFilmFresnelMap.prototype._updateData = function () {
   var R_star_t_tot = new THREE.Vector2()
 
   var refrRatioSqr = 1.0 / (refractiveIndexFilm * refractiveIndexFilm)
-  var refrRatioSqrBase = (refractiveIndexFilm * refractiveIndexFilm) / (refractiveIndexBase * refractiveIndexBase)
+  var refrRatioSqrBase =
+    (refractiveIndexFilm * refractiveIndexFilm) /
+    (refractiveIndexBase * refractiveIndexBase)
 
   // RGB is too limiting, so we use the entire spectral domain, but using limited samples (64) to
   // create more pleasing bands
@@ -186,7 +226,14 @@ ThinFilmFresnelMap.prototype._updateData = function () {
     phi21.y = Math.PI - phi12.y
 
     // this concerns the base layer
-    this._fresnelRefl(refractiveIndexFilm, refractiveIndexBase, cosThetaT, cosThetaT2, R23, phi23)
+    this._fresnelRefl(
+      refractiveIndexFilm,
+      refractiveIndexBase,
+      cosThetaT,
+      cosThetaT2,
+      R23,
+      phi23
+    )
     R_bi.x = Math.sqrt(R23.x * R12.x)
     R_bi.y = Math.sqrt(R23.y * R12.y)
     T_tot.x = Math.sqrt(T12.x * T12.x)
@@ -215,10 +262,14 @@ ThinFilmFresnelMap.prototype._updateData = function () {
       var cosPhiY = Math.cos(deltaPhase + phi23.y + phi21.y)
       var valX =
         R_12_star.x +
-        ((2.0 * (R_bi.x * cosPhiX - R_bi_sqr.x)) / (1.0 - 2 * R_bi.x * cosPhiX + R_bi_sqr.x)) * R_star_t_tot.x
+        ((2.0 * (R_bi.x * cosPhiX - R_bi_sqr.x)) /
+          (1.0 - 2 * R_bi.x * cosPhiX + R_bi_sqr.x)) *
+          R_star_t_tot.x
       var valY =
         R_12_star.y +
-        ((2.0 * (R_bi.y * cosPhiY - R_bi_sqr.y)) / (1.0 - 2 * R_bi.y * cosPhiY + R_bi_sqr.y)) * R_star_t_tot.y
+        ((2.0 * (R_bi.y * cosPhiY - R_bi_sqr.y)) /
+          (1.0 - 2 * R_bi.y * cosPhiY + R_bi_sqr.y)) *
+          R_star_t_tot.y
       var v = 0.5 * (valX + valY)
 
       var wx = xFit_1931(waveLen)
