@@ -9,3 +9,7 @@ than development for the accessible web allows.
 
 As such, some experiments may be performance intensive or
 incompatible with certain browsers.
+
+
+* Credits
+https://github.com/emmelleppi/codrops-r3f-mirrors: React-Three and project framework

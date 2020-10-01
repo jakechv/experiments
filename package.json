@@ -1,49 +1,41 @@
 {
-  "name": "experiments",
-  "version": "0.1.0",
-  "private": true,
+  "name": "use-r3f-assets",
+  "homepage": "Tutorials/Mirrors",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.js",
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "drei": "^1.5.7",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "@react-three/cannon": "^0.5.3",
+    "@react-three/drei": "^1.5.7",
+    "prettier": "^2.1.2",
+    "react": "17.0.0-rc.1",
+    "react-dom": "17.0.0-rc.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "react-spring": "^8.0.27",
-    "react-three-fiber": "^5.0.3",
-    "three": "^0.121.1",
-    "use-cannon": "^0.5.3"
+    "react-three-fiber": "5.0.0-beta.12",
+    "three": "0.120.1"
+  },
+  "devDependencies": {
+    "husky": "^4.3.0",
+    "pretty-quick": "^3.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "pretty": "prettier --write src"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "eslint": "^7.10.0",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.21.2",
-    "eslint-plugin-react-hooks": "^4.1.2",
-    "prettier": "^2.1.2",
-    "webpack": "^4.44.2"
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick"
+    }
   }
 }
