@@ -19,6 +19,7 @@ function useRenderTarget(settings = {}) {
 
   useFrame(({ gl, scene }) => {
     if (!cubeCamera.current) return
+    // @ts-ignore
     cubeCamera.current.update(gl, scene)
   })
 

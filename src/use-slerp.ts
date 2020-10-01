@@ -18,6 +18,7 @@ function useSlerp() {
     const y = (mouse.y * viewport.height) / 100
     rotationEuler.set(y, x, 0)
     rotationQuaternion.setFromEuler(rotationEuler)
+    // @ts-ignore
     group.current.quaternion.slerp(rotationQuaternion, 0.1)
   })
 

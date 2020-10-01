@@ -12,17 +12,26 @@ const textProps = {
   fontSize: 4,
   font: "https://fonts.gstatic.com/s/kanit/v7/nKKU-Go6G5tXcr4WPBWnVac.woff",
 }
-
 const BG_COLOR = "#921212"
 const PEDRO_COLOR = "#aaa"
 const CLICKHERE_COLOR = "#f70131"
 const REFLECTION_SIDE_COLOR = "#929292"
 const DARK_SIDE_COLOR = "#921212"
 
-function Title({ layers, label = "", color = 0xffffff, ...props }) {
+function Title({
+  layers,
+  label = "",
+  color = 0xffffff,
+  ...props
+}: {
+  layers: [number]
+  label: string
+  color: any
+}) {
   const group = useRef()
 
   useEffect(() => {
+    // @ts-ignore
     group.current.lookAt(0, 0, 0)
   }, [])
 
@@ -31,6 +40,7 @@ function Title({ layers, label = "", color = 0xffffff, ...props }) {
       <Text
         castShadow
         name={label}
+        // @ts-ignore
         depthTest={false}
         material-toneMapped={false}
         {...textProps}
@@ -43,7 +53,18 @@ function Title({ layers, label = "", color = 0xffffff, ...props }) {
   )
 }
 
-function TitleCopies({ layers, label, color, ...props }) {
+function TitleCopies({
+  layers,
+  label,
+  color,
+  ...props
+}: {
+  layers: [number]
+  position: [number, number, number]
+  rotation: [number, number, number]
+  label: string
+  color: any
+}) {
   const vertices = useMemo(() => {
     const y = new THREE.CircleGeometry(10, 4, 4)
     return y.vertices
@@ -53,7 +74,9 @@ function TitleCopies({ layers, label, color, ...props }) {
     <group name="titleCopies" {...props}>
       {vertices.map((vertex, i) => (
         <Title
+          // @ts-ignore
           name={"titleCopy-" + i}
+          key={"titleCopy-" + i}
           label={label}
           position={vertex}
           layers={layers}
@@ -64,7 +87,7 @@ function TitleCopies({ layers, label, color, ...props }) {
   )
 }
 
-function PhysicalWalls(props) {
+function PhysicalWalls(props: any) {
   usePlane(() => ({ ...props }))
 
   // back wall
@@ -77,17 +100,25 @@ function PhysicalWalls(props) {
   )
 }
 
-function PhysicalTitle(props) {
+function PhysicalTitle(props: any) {
   useBox(() => ({ ...props }))
   return null
 }
 
-function Mirror({ sideMaterial, reflectionMaterial, ...props }) {
+function Mirror({
+  sideMaterial,
+  reflectionMaterial,
+  ...props
+}: {
+  sideMaterial: THREE.Material
+  reflectionMaterial: THREE.Material
+}) {
   const [ref, api] = useBox(() => props)
 
   return (
     <Box
       ref={ref}
+      // @ts-ignore
       args={props.args}
       onClick={() => api.applyImpulse([0, 0, -50], [0, 0, 0])}
       receiveShadow
@@ -104,7 +135,7 @@ function Mirror({ sideMaterial, reflectionMaterial, ...props }) {
   )
 }
 
-function Mirrors({ envMap }) {
+function Mirrors({ envMap }: any) {
   const ROWS = 4
   const COLS = 10
   const BOX_SIZE = 2
@@ -114,7 +145,7 @@ function Mirrors({ envMap }) {
 
   const mirrorsData = useMemo(
     () =>
-      new Array(ROWS * COLS).fill().map((_, index) => ({
+      new Array(ROWS * COLS).fill(null).map((_, index) => ({
         mass: 1,
         material: { friction: 1, restitution: 0 },
         args: [BOX_SIZE, BOX_SIZE, BOX_SIZE],
@@ -130,6 +161,7 @@ function Mirrors({ envMap }) {
   return (
     <>
       <meshPhysicalMaterial
+        // @ts-ignore
         ref={sideMaterial}
         color={DARK_SIDE_COLOR}
         envMap={envMap}
@@ -137,6 +169,7 @@ function Mirrors({ envMap }) {
         metalness={0.2}
       />
       <meshPhysicalMaterial
+        // @ts-ignore
         ref={reflectionMaterial}
         envMap={envMap}
         roughness={0}
@@ -149,7 +182,9 @@ function Mirrors({ envMap }) {
             key={`0${index}`}
             name={`mirror-${index}`}
             {...mirror}
+            // @ts-ignore
             sideMaterial={sideMaterial.current}
+            // @ts-ignore
             reflectionMaterial={reflectionMaterial.current}
           />
         ))}
@@ -158,7 +193,13 @@ function Mirrors({ envMap }) {
   )
 }
 
-function Background({ layers, ...props }) {
+function Background({
+  layers,
+  ...props
+}: {
+  layers: [number, number]
+  position: [number, number, number]
+}) {
   const ref = useLayers(layers)
   return (
     <Octahedron ref={ref} name="background" args={[100]} {...props}>
@@ -178,12 +219,15 @@ export default function Scene() {
         <cubeCamera
           layers={[11]}
           name="cubeCamera"
+          // @ts-ignore
           ref={cubeCamera}
           position={[0, 0, 0]}
+          // @ts-ignore
           args={[0.1, 100, renderTarget]}
         />
 
         <Title
+          // @ts-ignore
           name="title"
           label="PEDRO"
           position={[0, 2, -10]}
@@ -199,6 +243,7 @@ export default function Scene() {
 
         <Title
           layers={[11]}
+          // @ts-ignore
           name="title"
           label="CLICK HERE"
           position={[0, 2, 24]}
@@ -207,8 +252,13 @@ export default function Scene() {
         />
 
         <Physics gravity={[0, -10, 0]}>
-          <Mirrors envMap={renderTarget.texture} />
+          // @ts-ignore
+          <Mirrors // @ts-ignore
+            envMap={renderTarget.texture}
+          />
+          // @ts-ignore
           <PhysicalWalls rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} />
+          // @ts-ignore
           <PhysicalTitle args={[13, 2.5, 0.1]} position={[0, 2.25, -10]} />
         </Physics>
       </group>
