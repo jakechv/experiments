@@ -18,6 +18,7 @@ import "./base.css"
 
 function Loader() {
   const { progress } = useProgress()
+
   return (
     <Html center>
       <span style={{ color: "#FFFFFF" }}>{progress} % loaded</span>
@@ -26,7 +27,8 @@ function Loader() {
 }
 
 function App({ scene = 1 }) {
-  const a: number = +"#000"
+  const a = Number("#000")
+
   return (
     <Canvas concurrent shadowMap camera={{ position: [0, 0, 5], fov: 70 }}>
       <color attach="background" args={[a, a, a]} />

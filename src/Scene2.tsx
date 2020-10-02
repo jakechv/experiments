@@ -26,12 +26,12 @@ function Title({
   map: THREE.Texture
   layers: [number]
 }) {
-  const textRef = useLayers(layers)
+  const textReference = useLayers(layers)
 
   return (
     <group {...props}>
       <Text
-        ref={textRef}
+        ref={textReference}
         name="text-olga"
         // @ts-ignore
         depthTest={false}
@@ -63,19 +63,19 @@ function Diamond({
   matcap: THREE.Texture
   layers: [number]
 }) {
-  const ref = useLayers(layers)
+  const reference = useLayers(layers)
 
   useFrame(() => {
-    if (ref.current) {
+    if (reference.current) {
       // @ts-ignore
-      ref.current.rotation.y += 0.001
+      reference.current.rotation.y += 0.001
       // @ts-ignore
-      ref.current.rotation.z += 0.01
+      reference.current.rotation.z += 0.01
     }
   })
 
   return (
-    <mesh ref={ref} {...props}>
+    <mesh ref={reference} {...props}>
       <meshMatcapMaterial
         matcap={matcap}
         transparent
@@ -92,7 +92,7 @@ function Diamonds({ layers, ...props }: { layers: [number] }) {
     "2E763A_78A0B7_B3D1CF_14F209"
   )
   // @ts-ignore
-  const { nodes } = useGLTFLoader(process.env.PUBLIC_URL + "/diamond.glb")
+  const { nodes } = useGLTFLoader(`${process.env.PUBLIC_URL}/diamond.glb`)
 
   return (
     <group name="diamonds" {...props}>
@@ -119,7 +119,7 @@ function Background({
   layers: [number, number]
   position: [number, number, number]
 }) {
-  const ref = useLayers(layers)
+  const reference = useLayers(layers)
   // @ts-ignore
   const [matcapTexture]: [THREE.Texture] = useMatcapTexture(
     "BA5DBA_F2BEF2_E69BE6_DC8CDC"
@@ -127,7 +127,7 @@ function Background({
 
   return (
     // @ts-ignore
-    <Octahedron ref={ref} name="background" args={[20, 4, 4]} {...props}>
+    <Octahedron ref={reference} name="background" args={[20, 4, 4]} {...props}>
       <meshMatcapMaterial
         matcap={matcapTexture}
         side={THREE.BackSide}
@@ -147,6 +147,7 @@ function Scene() {
   )
 
   const group = useSlerp()
+
   return (
     <>
       <Background layers={[0, 11]} position={[0, 0, -5]} />

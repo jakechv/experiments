@@ -8,7 +8,7 @@ import useSlerp from "./use-slerp"
 import useRenderTarget from "./use-render-target"
 import useLayers from "./use-layers"
 
-const textProps = {
+const textProperties = {
   fontSize: 4,
   font: "https://fonts.gstatic.com/s/kanit/v7/nKKU-Go6G5tXcr4WPBWnVac.woff",
 }
@@ -43,7 +43,7 @@ function Title({
         // @ts-ignore
         depthTest={false}
         material-toneMapped={false}
-        {...textProps}
+        {...textProperties}
         layers={layers}
       >
         {label}
@@ -67,6 +67,7 @@ function TitleCopies({
 }) {
   const vertices = useMemo(() => {
     const y = new THREE.CircleGeometry(10, 4, 4)
+
     return y.vertices
   }, [])
 
@@ -75,8 +76,8 @@ function TitleCopies({
       {vertices.map((vertex, i) => (
         <Title
           // @ts-ignore
-          name={"titleCopy-" + i}
-          key={"titleCopy-" + i}
+          name={`titleCopy-${i}`}
+          key={`titleCopy-${i}`}
           label={label}
           position={vertex}
           layers={layers}
@@ -102,6 +103,7 @@ function PhysicalWalls(props: any) {
 
 function PhysicalTitle(props: any) {
   useBox(() => ({ ...props }))
+
   return null
 }
 
@@ -113,11 +115,11 @@ function Mirror({
   sideMaterial: THREE.Material
   reflectionMaterial: THREE.Material
 }) {
-  const [ref, api] = useBox(() => props)
+  const [reference, api] = useBox(() => props)
 
   return (
     <Box
-      ref={ref}
+      ref={reference}
       // @ts-ignore
       args={props.args}
       onClick={() => api.applyImpulse([0, 0, -50], [0, 0, 0])}
@@ -135,7 +137,7 @@ function Mirror({
   )
 }
 
-function Mirrors({ envMap }: any) {
+function Mirrors({ envMap: environmentMap }: any) {
   const ROWS = 4
   const COLS = 10
   const BOX_SIZE = 2
@@ -149,6 +151,7 @@ function Mirrors({ envMap }: any) {
         mass: 1,
         material: { friction: 1, restitution: 0 },
         args: [BOX_SIZE, BOX_SIZE, BOX_SIZE],
+
         position: [
           -COLS + ((index * BOX_SIZE) % (BOX_SIZE * COLS)),
           -1 + BOX_SIZE * Math.floor((index * BOX_SIZE) / (BOX_SIZE * COLS)),
@@ -164,14 +167,14 @@ function Mirrors({ envMap }: any) {
         // @ts-ignore
         ref={sideMaterial}
         color={DARK_SIDE_COLOR}
-        envMap={envMap}
+        envMap={environmentMap}
         roughness={0.8}
         metalness={0.2}
       />
       <meshPhysicalMaterial
         // @ts-ignore
         ref={reflectionMaterial}
-        envMap={envMap}
+        envMap={environmentMap}
         roughness={0}
         metalness={1}
         color={REFLECTION_SIDE_COLOR}
@@ -200,9 +203,10 @@ function Background({
   layers: [number, number]
   position: [number, number, number]
 }) {
-  const ref = useLayers(layers)
+  const reference = useLayers(layers)
+
   return (
-    <Octahedron ref={ref} name="background" args={[100]} {...props}>
+    <Octahedron ref={reference} name="background" args={[100]} {...props}>
       <meshBasicMaterial color={BG_COLOR} side={THREE.BackSide} />
     </Octahedron>
   )

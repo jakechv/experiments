@@ -1,4 +1,4 @@
-export const mirrorsData = {
+const mirrorsData = {
   mirrors: [
     {
       args: [2.87483173052424, 2.920755196190408, 0.05],
@@ -53,7 +53,7 @@ export const mirrorsData = {
   ],
 }
 
-export const textData = [
+const textData = [
   {
     position: [0, 0, -10],
     rotation: [0, 0, 0],
@@ -85,3 +85,5 @@ export const textData = [
     scale: [-1, 1, 1],
   },
 ]
+
+export { mirrorsData, textData }

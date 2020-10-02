@@ -6,12 +6,12 @@ import { Text, Box, useMatcapTexture, Octahedron } from "@react-three/drei"
 import useSlerp from "./use-slerp"
 import useLayers from "./use-layers"
 import useRenderTarget from "./use-render-target"
-
 import { ThinFilmFresnelMap } from "./thinFilmFresnelMap"
 import { mirrorsData } from "./data"
 
 const TEXT_PROPS = {
   fontSize: 2.5,
+
   font:
     "https://fonts.gstatic.com/s/syncopate/v12/pe0pMIuPIYBCpEV5eFdKvtKqBP5p.woff",
 }
@@ -19,17 +19,18 @@ const TEXT_PROPS = {
 function Title(props: { layers: [number] }) {
   const { layers } = props
   const group = useRef()
+
   useEffect(() => {
     // @ts-ignore
     group.current.lookAt(0, 0, 0)
   }, [])
 
-  const textRef = useLayers(layers)
+  const textReference = useLayers(layers)
 
   return (
     <group {...props} ref={group}>
       <Text
-        ref={textRef}
+        ref={textReference}
         name="text-panna"
         // @ts-ignore
         depthTest={false}
@@ -55,16 +56,16 @@ function Mirror({
   args: [number]
   layers: [number]
 }) {
-  const ref = useLayers(layers)
+  const reference = useLayers(layers)
 
   useFrame(() => {
-    if (ref.current) {
+    if (reference.current) {
       // @ts-ignore
-      if (ref.current.rotation) {
+      if (reference.current.rotation) {
         // @ts-ignore
-        ref.current.rotation.y += 0.001
+        reference.current.rotation.y += 0.001
         // @ts-ignore
-        ref.current.rotation.z += 0.01
+        reference.current.rotation.z += 0.01
       }
     }
   })
@@ -72,7 +73,7 @@ function Mirror({
   return (
     <Box
       {...props}
-      ref={ref}
+      ref={reference}
       args={args}
       material={[
         sideMaterial,
@@ -87,7 +88,7 @@ function Mirror({
 }
 
 function Mirrors({
-  envMap,
+  envMap: environmentMap,
   layers,
   ...props
 }: {
@@ -112,7 +113,7 @@ function Mirrors({
         // @ts-ignore
         ref={reflectionMaterial}
         map={thinFilmFresnelMap}
-        envMap={envMap}
+        envMap={environmentMap}
         color="#FFFFFF"
       />
       {mirrorsData.mirrors.map((mirror, index) => (
@@ -134,6 +135,7 @@ function Mirrors({
 function TitleCopies({ layers }: { layers: [number] }) {
   const vertices = useMemo(() => {
     const y = new THREE.IcosahedronGeometry(10)
+
     return y.vertices
   }, [])
 
@@ -142,8 +144,9 @@ function TitleCopies({ layers }: { layers: [number] }) {
       {vertices.map((vertex, i) => (
         // @ts-ignore
         <Title
-          key={"titleCopy-" + i}
-          name={"titleCopy-" + i}
+          key={`titleCopy-${i}`}
+          // @ts-ignore
+          name={`titleCopy-${i}`}
           position={vertex}
           layers={layers}
         />

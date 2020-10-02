@@ -1,8 +1,13 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "baseUrl": "./src",
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -10,12 +15,13 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "moduleResolution": "node"
   },
-  "files": ["./src/index.tsx"],
-  "include": ["src", "./src/**/*"]
+  "include": [
+    "./src/**/*"
+  ]
 }

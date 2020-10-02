@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react"
-import * as THREE from "three"
+import { Euler, Quaternion } from "three"
 import { useFrame, useThree } from "react-three-fiber"
 
 function useSlerp() {
@@ -7,7 +7,7 @@ function useSlerp() {
   const { viewport } = useThree()
 
   const [rotationEuler, rotationQuaternion] = useMemo(
-    () => [new THREE.Euler(0, 0, 0), new THREE.Quaternion(0, 0, 0, 0)],
+    () => [new Euler(0, 0, 0), new Quaternion(0, 0, 0, 0)],
     []
   )
 
@@ -16,6 +16,7 @@ function useSlerp() {
 
     const x = (mouse.x * viewport.width) / 100
     const y = (mouse.y * viewport.height) / 100
+
     rotationEuler.set(y, x, 0)
     rotationQuaternion.setFromEuler(rotationEuler)
     // @ts-ignore

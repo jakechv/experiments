@@ -10,6 +10,8 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "prettier/@typescript-eslint",
+    "hardcore",
+    "hardcore/fp",
     "plugin:prettier/recommended",
   ],
   parserOptions: {
@@ -31,5 +33,6 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": 1,
     "react/jsx-no-comment-textnodes": 1,
     "react/prop-types": 1,
+    "id-length": 1,
   },
 }
