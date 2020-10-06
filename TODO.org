@@ -1,0 +1,6 @@
+#+TITLE: Todo
+* switch to server side rendering framework
+worth exploring:
+- razzle
+- next.js
+??? do i need the framework from next.js, really?
