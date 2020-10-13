@@ -1,7 +1,12 @@
 import React, { useEffect, useMemo, useRef } from "react"
 import * as THREE from "three"
 import { useResource } from "react-three-fiber"
-import { Text, Box, Octahedron, Plane } from "@react-three/drei"
+
+import dynamic from "next/dynamic"
+const { Text, Box, Octahedron, Plane } = dynamic(() => import("@react-three/drei"), {
+  ssr: false,
+})
+
 import { Physics, useBox, usePlane } from "@react-three/cannon"
 
 import useSlerp from "./use-slerp"
@@ -212,7 +217,7 @@ function Background({
   )
 }
 
-export default function Scene() {
+function Scene() {
   const group = useSlerp()
   const [cubeCamera, renderTarget] = useRenderTarget()
 
@@ -282,3 +287,5 @@ export default function Scene() {
     </>
   )
 }
+
+export default Scene

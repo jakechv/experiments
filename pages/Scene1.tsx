@@ -1,7 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import * as THREE from "three"
 import { useFrame, useResource } from "react-three-fiber"
-import { Text, Box, useMatcapTexture, Octahedron } from "@react-three/drei"
+
+import dynamic from "next/dynamic"
+const { Text, Box, Octahedron } = dynamic(() => import("@react-three/drei"), {
+  ssr: false,
+})
 
 import useSlerp from "./use-slerp"
 import useLayers from "./use-layers"

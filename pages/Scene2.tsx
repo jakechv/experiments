@@ -1,7 +1,14 @@
 import React, { useMemo } from "react"
 import * as THREE from "three"
 import { useFrame } from "react-three-fiber"
-import { Text, useMatcapTexture, Octahedron, useGLTFLoader } from "@react-three/drei"
+
+import dynamic from "next/dynamic"
+const { Text, Octahedron, useGLTFLoader } = dynamic(
+  () => import("@react-three/drei"),
+  {
+    ssr: false,
+  }
+)
 
 import useSlerp from "./use-slerp"
 import useRenderTarget from "./use-render-target"
@@ -88,9 +95,10 @@ function Diamond({
 
 function Diamonds({ layers, ...props }: { layers: [number] }) {
   // @ts-ignore
-  const [matcapTexture]: [THREE.Texture] = useMatcapTexture(
-    "2E763A_78A0B7_B3D1CF_14F209"
-  )
+  const [matcapTexture]: [THREE.Texture] = [null]
+  // useMatcapTexture(
+  //   "2E763A_78A0B7_B3D1CF_14F209"
+  // )
   // @ts-ignore
   const { nodes } = useGLTFLoader(`${process.env.PUBLIC_URL}/diamond.glb`)
 
@@ -121,9 +129,8 @@ function Background({
 }) {
   const reference = useLayers(layers)
   // @ts-ignore
-  const [matcapTexture]: [THREE.Texture] = useMatcapTexture(
-    "BA5DBA_F2BEF2_E69BE6_DC8CDC"
-  )
+  const [matcapTexture]: [THREE.Texture] = [null]
+  useMatcapTexture("BA5DBA_F2BEF2_E69BE6_DC8CDC")
 
   return (
     // @ts-ignore
