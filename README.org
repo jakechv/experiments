@@ -13,3 +13,16 @@ incompatible with certain browsers.
 
 * Credits
 https://github.com/emmelleppi/codrops-r3f-mirrors: React-Three and project framework
+
+* Ideas
+https://www.awwwards.com/sites/web-graphic-experiments-v2
+This stuff is beautiful.
+It's a collection of 3D web graphic experiments! Exactly what I'd like this site to become.
+I wish the main page were more responsive for my use cases, but I'd love to spend some time
+creating and iterating on individual experience. I like the idea of the index as well.
+([[https://blazetype.eu/typecatalogue/][He used this font]]).
+
+
+Some features to add:
+- Tags (3D, 2D, CSS, ThreeJS, UX, etc..)
+- Individual pages for each (each experiment is a single page application)
