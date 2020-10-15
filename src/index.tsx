@@ -46,6 +46,7 @@ function App({ scene = 1 }) {
   )
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 function Body() {
   return (
     <Router>
