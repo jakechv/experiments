@@ -1,10 +1,9 @@
 {
   "name": "experiments",
-  "homepage": "Tutorials/Mirrors",
   "version": "0.0.1",
-  "description": "",
+  "description": "Jacob Chvatal's interactive web experiments.",
   "keywords": [],
-  "main": "src/index.js",
+  "main": "src/index.tsx",
   "dependencies": {
     "@loadable/component": "^5.13.2",
     "@react-three/cannon": "^0.5.3",

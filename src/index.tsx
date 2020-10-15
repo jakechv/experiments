@@ -52,8 +52,8 @@ function Body() {
       <main>
         <div className="frame">
           <div className="frame__title-wrap">
-            <h1 className="frame__title">Awesome Mirror Effect</h1>
-            <p className="frame__tagline">A react-three-fiber based demo</p>
+            <h1 className="frame__title">Experiments | Jacob Chvatal</h1>
+            <p className="frame__tagline">Interactive web experiments</p>
           </div>
           <div className="frame__links">
             <a href="https://tympanus.net/Development/MenuFullGrid/">
