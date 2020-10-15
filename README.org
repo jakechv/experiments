@@ -10,6 +10,16 @@ than development for the accessible web allows.
 As such, some experiments may be performance intensive or
 incompatible with certain browsers.
 
+* Goals
+show off
+- react skill
+- threejs skill
+- ux design
+learn
+- design
+- use of industrial tools
+- project maintainence long term
+- development of ui components / architecture in a modular way
 
 * Credits
 https://github.com/emmelleppi/codrops-r3f-mirrors: React-Three and project framework

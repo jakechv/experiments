@@ -2,6 +2,10 @@ import { render } from "react-dom"
 import React, { Suspense } from "react"
 import { Canvas } from "react-three-fiber"
 import { useProgress, Html } from "@react-three/drei"
+
+import AppCanvas from "./faceFilter"
+
+import { AppContainer } from "react-hot-loader"
 import {
   HashRouter as Router,
   Switch,
@@ -103,4 +107,10 @@ function Body() {
   )
 }
 
-render(<Body />, document.querySelector("#root"))
+render(
+  <AppContainer>
+    <AppCanvas />
+  </AppContainer>,
+  document.querySelector("#root")
+)
+// render(<Body />, document.querySelector("#root"))
