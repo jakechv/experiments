@@ -5,7 +5,7 @@ import { useProgress, Html } from "@react-three/drei"
 import Prose from "./pages/prose"
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import AppCanvas from "./faceFilter"
+import AppCanvas from "./pages/faceFilter"
 
 import { AppContainer } from "react-hot-loader"
 import {
