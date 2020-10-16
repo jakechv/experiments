@@ -4,7 +4,6 @@ import { Canvas } from "react-three-fiber"
 import { useProgress, Html } from "@react-three/drei"
 import Prose from "./pages/prose"
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import FaceFilter from "./pages/faceFilter"
 
 import { AppContainer } from "react-hot-loader"
@@ -22,6 +21,8 @@ import Scene3 from "./pages/Scene3"
 
 import "./base.css"
 
+const a = Number("#000")
+
 function Loader() {
   const { progress } = useProgress()
 
@@ -32,25 +33,40 @@ function Loader() {
   )
 }
 
-function App({ scene = 1 }) {
-  const a = Number("#000")
+const ThreeCanvas = ({ children }: { children: React.ReactNode }) => (
+  <Canvas concurrent shadowMap camera={{ position: [0, 0, 5], fov: 70 }}>
+    <color attach="background" args={[a, a, a]} />
 
+    <Suspense fallback={<Loader />}>{children}</Suspense>
+    <ambientLight intensity={0.4} />
+  </Canvas>
+)
+
+function App({ scene = 1 }) {
   return (
-    <Canvas concurrent shadowMap camera={{ position: [0, 0, 5], fov: 70 }}>
-      <color attach="background" args={[a, a, a]} />
-      <Suspense fallback={<Loader />}>
-        {scene === 1 && <Scene1 />}
-        {scene === 2 && <Scene2 />}
-        {scene === 3 && <Scene3 />}
-        {scene === 4 && (
-          <AppContainer>
-            <FaceFilter />
-          </AppContainer>
-        )}
-        {scene === 5 && <Prose />}
-      </Suspense>
-      <ambientLight intensity={0.4} />
-    </Canvas>
+    <>
+      {scene === 1 && (
+        <ThreeCanvas>
+          <Scene1 />
+        </ThreeCanvas>
+      )}
+      {scene === 2 && (
+        <ThreeCanvas>
+          <Scene2 />
+        </ThreeCanvas>
+      )}
+      {scene === 3 && (
+        <ThreeCanvas>
+          <Scene2 />
+        </ThreeCanvas>
+      )}
+      {scene === 4 && (
+        <AppContainer>
+          <FaceFilter />
+        </AppContainer>
+      )}
+      {scene === 5 && <Prose />}
+    </>
   )
 }
 
