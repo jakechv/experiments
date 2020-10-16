@@ -4,9 +4,9 @@ import { useResource } from "react-three-fiber"
 import { Text, Box, Octahedron, Plane } from "@react-three/drei"
 import { Physics, useBox, usePlane } from "@react-three/cannon"
 
-import useSlerp from "./use-slerp"
-import useRenderTarget from "./use-render-target"
-import useLayers from "./use-layers"
+import useSlerp from "./utils/use-slerp"
+import useRenderTarget from "./utils/use-render-target"
+import useLayers from "./utils/use-layers"
 
 const textProperties = {
   fontSize: 4,

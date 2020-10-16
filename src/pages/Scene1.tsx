@@ -3,11 +3,11 @@ import * as THREE from "three"
 import { useFrame, useResource } from "react-three-fiber"
 import { Text, Box, useMatcapTexture, Octahedron } from "@react-three/drei"
 
-import useSlerp from "./use-slerp"
-import useLayers from "./use-layers"
-import useRenderTarget from "./use-render-target"
-import { ThinFilmFresnelMap } from "./thinFilmFresnelMap"
-import { mirrorsData } from "./data"
+import useSlerp from "./utils/use-slerp"
+import useLayers from "./utils/use-layers"
+import useRenderTarget from "./utils/use-render-target"
+import { ThinFilmFresnelMap } from "./utils/thinFilmFresnelMap"
+import { mirrorsData } from "./utils/data"
 
 const TEXT_PROPS = {
   fontSize: 2.5,

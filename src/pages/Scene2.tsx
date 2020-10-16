@@ -3,11 +3,11 @@ import * as THREE from "three"
 import { useFrame } from "react-three-fiber"
 import { Text, useMatcapTexture, Octahedron, useGLTFLoader } from "@react-three/drei"
 
-import useSlerp from "./use-slerp"
-import useRenderTarget from "./use-render-target"
-import { ThinFilmFresnelMap } from "./thinFilmFresnelMap"
-import { mirrorsData as diamondsData } from "./data"
-import useLayers from "./use-layers"
+import useSlerp from "./utils/use-slerp"
+import useRenderTarget from "./utils/use-render-target"
+import { ThinFilmFresnelMap } from "./utils/thinFilmFresnelMap"
+import { mirrorsData as diamondsData } from "./utils/data"
+import useLayers from "./utils/use-layers"
 
 const TEXT_PROPS = {
   fontSize: 5,

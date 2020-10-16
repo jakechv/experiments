@@ -77,7 +77,7 @@ const compute_sizing = () => {
   return { width, height, top, left }
 }
 
-class AppCanvas extends Component {
+class FaceFilter extends Component {
   constructor(props) {
     super(props)
 
@@ -223,4 +223,4 @@ class AppCanvas extends Component {
   }
 }
 
-export default AppCanvas
+export default FaceFilter

@@ -5,7 +5,7 @@ import { useProgress, Html } from "@react-three/drei"
 import Prose from "./pages/prose"
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import AppCanvas from "./pages/faceFilter"
+import FaceFilter from "./pages/faceFilter"
 
 import { AppContainer } from "react-hot-loader"
 import {
@@ -16,9 +16,9 @@ import {
   Redirect,
 } from "react-router-dom"
 
-import Scene1 from "./Scene1"
-import Scene2 from "./Scene2"
-import Scene3 from "./Scene3"
+import Scene1 from "./pages/Scene1"
+import Scene2 from "./pages/Scene2"
+import Scene3 from "./pages/Scene3"
 
 import "./base.css"
 
@@ -42,6 +42,12 @@ function App({ scene = 1 }) {
         {scene === 1 && <Scene1 />}
         {scene === 2 && <Scene2 />}
         {scene === 3 && <Scene3 />}
+        {scene === 4 && (
+          <AppContainer>
+            <FaceFilter />
+          </AppContainer>
+        )}
+        {scene === 5 && <Prose />}
       </Suspense>
       <ambientLight intensity={0.4} />
     </Canvas>
@@ -87,6 +93,22 @@ function Body() {
             >
               PEDRO
             </NavLink>
+
+            <NavLink
+              to="/facefilter"
+              activeClassName="frame__demo--current"
+              className="frame__demo"
+            >
+              FACEFILTER
+            </NavLink>
+
+            <NavLink
+              to="/prose"
+              activeClassName="frame__demo--current"
+              className="frame__demo"
+            >
+              PROSE
+            </NavLink>
           </div>
         </div>
         <div className="content">
@@ -103,6 +125,12 @@ function Body() {
             <Route exact path="/pedro">
               <App scene={3} />
             </Route>
+            <Route exact path="/facefilter">
+              <App scene={4} />
+            </Route>
+            <Route exact path="/prose">
+              <App scene={5} />
+            </Route>
           </Switch>
         </div>
       </main>
@@ -110,11 +138,4 @@ function Body() {
   )
 }
 
-// <AppCanvas />
-render(
-  <AppContainer>
-    <Prose />
-  </AppContainer>,
-  document.querySelector("#root")
-)
-// render(<Body />, document.querySelector("#root"))
+render(<Body />, document.querySelector("#root"))
