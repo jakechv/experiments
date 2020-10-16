@@ -4,6 +4,7 @@ import { Canvas } from "react-three-fiber"
 import { useProgress, Html } from "@react-three/drei"
 import Prose from "./prose"
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import AppCanvas from "./faceFilter"
 
 import { AppContainer } from "react-hot-loader"
