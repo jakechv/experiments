@@ -4,7 +4,7 @@ const Quote = ({ author, quoteLines }) => (
   <div>
     <br />
     {quoteLines.map((quoteLine) => (
-      <div>{quoteLine}</div>
+      <div key={quoteLine}>{quoteLine}</div>
     ))}
     <br />
     <div>{author}</div>

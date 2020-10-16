@@ -36,7 +36,6 @@ function Loader() {
 const ThreeCanvas = ({ children }: { children: React.ReactNode }) => (
   <Canvas concurrent shadowMap camera={{ position: [0, 0, 5], fov: 70 }}>
     <color attach="background" args={[a, a, a]} />
-
     <Suspense fallback={<Loader />}>{children}</Suspense>
     <ambientLight intensity={0.4} />
   </Canvas>
@@ -57,7 +56,7 @@ function App({ scene = 1 }) {
       )}
       {scene === 3 && (
         <ThreeCanvas>
-          <Scene2 />
+          <Scene3 />
         </ThreeCanvas>
       )}
       {scene === 4 && (
