@@ -2,7 +2,7 @@ import { render } from "react-dom"
 import React, { Suspense } from "react"
 import { Canvas } from "react-three-fiber"
 import { useProgress, Html } from "@react-three/drei"
-import Prose from "./prose"
+import Prose from "./pages/prose"
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import AppCanvas from "./faceFilter"
