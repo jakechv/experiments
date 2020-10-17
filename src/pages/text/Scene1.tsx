@@ -16,7 +16,7 @@ const TEXT_PROPS = {
     "https://fonts.gstatic.com/s/syncopate/v12/pe0pMIuPIYBCpEV5eFdKvtKqBP5p.woff",
 }
 
-function Title(props: { layers: [number] }) {
+const Title = (props: { layers: [number] }) => {
   const { layers } = props
   const group = useRef()
 
@@ -44,7 +44,7 @@ function Title(props: { layers: [number] }) {
   )
 }
 
-function Mirror({
+const Mirror = ({
   sideMaterial,
   reflectionMaterial,
   args,
@@ -55,7 +55,7 @@ function Mirror({
   reflectionMaterial: THREE.Material
   args: [number]
   layers: [number]
-}) {
+}) => {
   const reference = useLayers(layers)
 
   useFrame(() => {
@@ -87,14 +87,14 @@ function Mirror({
   )
 }
 
-function Mirrors({
+const Mirrors = ({
   envMap: environmentMap,
   layers,
   ...props
 }: {
   envMap: THREE.Texture
   layers: [number]
-}) {
+}) => {
   // @ts-ignore
   const [thinFilmFresnelMap]: [THREE.Texture] = useState(new ThinFilmFresnelMap())
   const sideMaterial = useResource()
@@ -132,7 +132,7 @@ function Mirrors({
   )
 }
 
-function TitleCopies({ layers }: { layers: [number] }) {
+const TitleCopies = ({ layers }: { layers: [number] }) => {
   const vertices = useMemo(() => {
     const y = new THREE.IcosahedronGeometry(10)
 
@@ -155,7 +155,7 @@ function TitleCopies({ layers }: { layers: [number] }) {
   )
 }
 
-function Scene() {
+const Scene1 = () => {
   const [cubeCamera, renderTarget] = useRenderTarget()
   const group = useSlerp()
 
@@ -207,4 +207,4 @@ function Scene() {
   )
 }
 
-export default Scene
+export default Scene1

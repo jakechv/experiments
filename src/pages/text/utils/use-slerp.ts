@@ -2,7 +2,7 @@ import { useMemo, useRef } from "react"
 import { Euler, Quaternion } from "three"
 import { useFrame, useThree } from "react-three-fiber"
 
-function useSlerp() {
+const useSlerp = () => {
   const group = useRef()
   const { viewport } = useThree()
 

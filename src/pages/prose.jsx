@@ -1,6 +1,6 @@
 import React from "react"
-import { ScribbleCircleLink } from "../components/link"
 
+import { ScribbleCircleLink } from "../components/link"
 import Quote from "../components/quote"
 
 const yohji = (link) => (

@@ -119,7 +119,7 @@ class FilterFace extends Component {
 
   doResize() {
     _timerResize = null
-    const newSizing = compute_sizing()
+    const newSizing = computeSizing()
     this.setState({ sizing: newSizing }, () => {
       if (_timerResize) return
       JEEFACEFILTERAPI.resize()

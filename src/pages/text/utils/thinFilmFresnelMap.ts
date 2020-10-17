@@ -21,7 +21,7 @@
  */
 import * as THREE from "three"
 
-export function ThinFilmFresnelMap(
+function ThinFilmFresnelMap(
   this: THREE.DataTexture & {
     _filmThickness: number
     _refractiveIndexFilm: number
@@ -337,3 +337,5 @@ ThinFilmFresnelMap.prototype._updateData = function () {
 
   this.needsUpdate = true
 }
+
+export { ThinFilmFresnelMap }

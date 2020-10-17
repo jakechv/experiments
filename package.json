@@ -13,7 +13,6 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
     "facefilter": "^2.0.3",
-    "node-sass": "^4.14.1",
     "react": "17.0.0-rc.1",
     "react-dom": "17.0.0-rc.1",
     "react-router-dom": "^5.2.0",
@@ -51,11 +50,7 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -63,8 +58,6 @@
     ]
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint --fix"
-    ]
+    "*.{js,ts,tsx}": ["eslint --fix"]
   }
 }
