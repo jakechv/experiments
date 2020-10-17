@@ -31,6 +31,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.2",
+    "eslint_d": "^9.1.2",
     "husky": "^4.3.0",
     "javascript-typescript-langserver": "^2.11.3",
     "lint-staged": "^10.4.0",
@@ -50,7 +51,11 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -58,6 +63,8 @@
     ]
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": ["eslint --fix"]
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
   }
 }
