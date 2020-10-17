@@ -1,0 +1,12 @@
+####{BSB GENERATED: NO EDIT
+B lib/bs
+FLG -open Experiments
+FLG -ppx '/home/jake/experiments/node_modules/bs-platform/linux/bsc.exe -as-ppx -bs-jsx 3'
+S /home/jake/experiments/node_modules/bs-platform/lib/ocaml
+B /home/jake/experiments/node_modules/bs-platform/lib/ocaml
+FLG -w +a-4-9-20-40-41-42-50-61-102
+S /home/jake/experiments/node_modules/reason-react/lib/ocaml
+B /home/jake/experiments/node_modules/reason-react/lib/ocaml
+S src/pages
+B lib/bs/src/pages
+####BSB GENERATED: NO EDIT}

@@ -5,6 +5,7 @@ import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom"
 import Prose from "./pages/prose"
 import FaceFilter from "./pages/faceFilter"
 import TextRoutes from "./pages/text"
+import Form from "./pages/Form.bs"
 
 const Body = () => (
   <Router>
@@ -19,6 +20,12 @@ const Body = () => (
           </Route>
           <Route exact path="/prose">
             <Prose />
+          </Route>
+          <Route exact path="/prose">
+            <Prose />
+          </Route>
+          <Route exact path="/form">
+            <Form />
           </Route>
           <Route path="/text" component={TextRoutes} />
         </Switch>
