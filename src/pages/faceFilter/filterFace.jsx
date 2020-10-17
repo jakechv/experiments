@@ -1,23 +1,24 @@
 import React, { Component } from "react"
 import { Canvas, useFrame, useThree, useUpdate } from "react-three-fiber"
-
 // import main script and neural network model from Jeeliz FaceFilter NPM package
 import { JEEFACEFILTERAPI, NN_4EXPR } from "facefilter"
 
 // import THREE.js helper, useful to compute pose
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
-import { JeelizThreeFiberHelper } from "./helpers.js"
+import JeelizThreeFiberHelper from "./helpers.js"
 
-const _maxFacesDetected = 1 // max number of detected faces
+// max number of detected faces
+const _maxFacesDetected = 1
 const _faceFollowers = new Array(_maxFacesDetected)
+
 let _timerResize = null
 
 // This mesh follows the face. put stuffs in it.
 // Its position and orientation is controlled by Jeeliz THREE.js helper
-function FaceFollower(props) {
+const FaceFollower = ({ faceIndex, expressions: { mouthOpen, mouthSmile } }) => {
   // This reference will give us direct access to the mesh
   const objRef = useUpdate((threeObject3D) => {
-    _faceFollowers[props.faceIndex] = threeObject3D
+    _faceFollowers[faceIndex] = threeObject3D
   })
 
   return (
@@ -29,7 +30,7 @@ function FaceFollower(props) {
 
       <mesh
         name="mouthOpen"
-        scale={[props.expressions.mouthOpen, 1, props.expressions.mouthOpen]}
+        scale={[mouthOpen, 1, mouthOpen]}
         rotation={[Math.PI / 2, 0, 0]}
         position={[0, -0.2, 0.2]}
       >
@@ -39,7 +40,7 @@ function FaceFollower(props) {
 
       <mesh
         name="mouthSmile"
-        scale={[props.expressions.mouthSmile, 1, props.expressions.mouthSmile]}
+        scale={[mouthSmile, 1, mouthSmile]}
         rotation={[Math.PI / 2, 0, 0]}
         position={[0, -0.2, 0.2]}
       >
@@ -55,15 +56,17 @@ function FaceFollower(props) {
 // fake component, display nothing
 // just used to get the Camera and the renderer used by React-fiber:
 let _threeFiber = null
-function DirtyHook(props) {
+const DirtyHook = ({ sizing }) => {
   _threeFiber = useThree()
   useFrame(
-    JeelizThreeFiberHelper.update_camera.bind(null, props.sizing, _threeFiber.camera)
+    JeelizThreeFiberHelper.update_camera.bind(null, sizing, _threeFiber.camera)
   )
   return null
 }
 
-const compute_sizing = () => {
+const mapN = (func, n) => new Array(n).fill(0).map((_, i) => func(i))
+
+const computeSizing = () => {
   // compute  size of the canvas:
   const height = window.innerHeight
   const wWidth = window.innerWidth
@@ -80,17 +83,18 @@ class FilterFace extends Component {
     super(props)
 
     // init state:
-    const expressions = []
-    for (let i = 0; i < _maxFacesDetected; ++i) {
-      expressions.push({
+    const expressions = mapN(
+      () => ({
         mouthOpen: 0,
         mouthSmile: 0,
         eyebrowFrown: 0,
         eyebrowRaised: 0,
-      })
-    }
+      }),
+      _maxFacesDetected
+    )
+
     this.state = {
-      sizing: compute_sizing(),
+      sizing: computeSizing(),
       expressions,
     }
 

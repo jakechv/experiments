@@ -1,54 +1,60 @@
-import * as THREE from "three"
+import { Vector3, Matrix4, ShaderMaterial, ShaderLib, Mesh } from "three"
 
 // SRC: This and the index.js file for this face filter library are from the repo
 // https://github.com/jeeliz/jeelizFaceFilter.
 // They've been modified from the original source code.
 
-/*
-  Helper for THREE Fiber. You can customize it
-*/
+//
+// Helper for THREE Fiber. You can customize it
+//
 
-const superThat = (function () {
+const superThat = (() => {
   // internal settings:
   const _settings = {
-    rotationOffsetX: 0.0, // negative -> look upper. in radians
-    pivotOffsetYZ: [0.2, 0.6], // YZ of the distance between the center of the cube and the pivot. enable _settings.isDebugPivotPoint to set this value
-
-    detectionThreshold: 0.8, // sensibility, between 0 and 1. Less -> more sensitive
+    // negative -> look upper. in radians
+    rotationOffsetX: 0,
+    // YZ of the distance between the center of the cube and the pivot. enable _settings.isDebugPivotPoint to set this value
+    pivotOffsetYZ: [0.2, 0.6],
+    // sensibility, between 0 and 1. Less -> more sensitive
+    detectionThreshold: 0.8,
     detectionHysteresis: 0.02,
 
-    //tweakMoveYRotateX: 0,//0.5, // tweak value: move detection window along Y axis when rotate the face around X (look up <-> down)
-
-    cameraMinVideoDimFov: 35, // Field of View for the smallest dimension of the video in degrees
+    // tweakMoveYRotateX: 0,//0.5, // tweak value: move detection window along Y axis when rotate the face around X (look up <-> down)
+    // Field of View for the smallest dimension of the video in degrees
+    cameraMinVideoDimFov: 35,
   }
 
-  let _threeFiberCompositeObjects = null,
-    _threeProjMatrix = null
+  let _threeFiberCompositeObjects = null
+  let _threeProjMatrix = null
+
   const _previousSizing = {
     width: 1,
     height: -1,
   }
 
-  let _threeTranslation = null,
-    _maxFaces = -1,
-    _detectCallback = null,
-    _videoElement = null,
-    _scaleW = 1,
-    _canvasAspectRatio = -1
+  let _threeTranslation = null
+  let _maxFaces = -1
+  let _detectCallback = null
+  let _videoElement = null
+  let _scaleW = 1
+  let _canvasAspectRatio = -1
 
-  function detect(detectState) {
-    _threeFiberCompositeObjects.forEach(function (threeFiberCompositeObject, i) {
+  const detect = (detectState) => {
+    _threeFiberCompositeObjects.forEach((threeFiberCompositeObject, i) => {
       const threeCompositeObject = threeFiberCompositeObject
+
       if (!threeCompositeObject) return
 
       const isDetected = threeCompositeObject.visible
       const ds = detectState[i]
+
       if (
         isDetected &&
         ds.detected < _settings.detectionThreshold - _settings.detectionHysteresis
       ) {
         // DETECTION LOST
         if (_detectCallback) _detectCallback(i, false)
+
         threeCompositeObject.visible = false
       } else if (
         !isDetected &&
@@ -56,27 +62,31 @@ const superThat = (function () {
       ) {
         // FACE DETECTED
         if (_detectCallback) _detectCallback(i, true)
+
         threeCompositeObject.visible = true
       }
-    }) //end loop on all detection slots
+    }) // end loop on all detection slots
   }
 
-  function update_poses(ds, threeCamera) {
+  const update_poses = (ds, threeCamera) => {
     // tan( <horizontal FoV> / 2 ):
     const halfTanFOVX = Math.tan(
       (threeCamera.aspect * threeCamera.fov * Math.PI) / 360
-    ) //tan(<horizontal FoV>/2), in radians (threeCamera.fov is vertical FoV)
+    ) // tan(<horizontal FoV>/2), in radians (threeCamera.fov is vertical FoV)
 
     _threeFiberCompositeObjects.forEach(function (threeFiberCompositeObject, i) {
       const threeCompositeObject = threeFiberCompositeObject
+
       if (!threeCompositeObject) return
+
       if (!threeCompositeObject.visible) return
+
       const detectState = ds[i]
 
       // tweak Y position depending on rx:
-      //const tweak = _settings.tweakMoveYRotateX * Math.tan(detectState.rx);
-      const cz = Math.cos(detectState.rz),
-        sz = Math.sin(detectState.rz)
+      // const tweak = _settings.tweakMoveYRotateX * Math.tan(detectState.rx);
+      const cz = Math.cos(detectState.rz)
+      const sz = Math.sin(detectState.rz)
 
       // relative width of the detection window (1-> whole width of the detection window):
       const W = detectState.s * _scaleW
@@ -92,7 +102,8 @@ const superThat = (function () {
       const yv = detectState.y * _scaleW
 
       // coords in 3D of the center of the cube (in the view coordinates system):
-      const z = -D // minus because view coordinate system Z goes backward
+      // minus because view coordinate system Z goes backward
+      const z = -D
       const x = xv * D * halfTanFOVX
       const y = (yv * D * halfTanFOVX) / _canvasAspectRatio
 
@@ -119,12 +130,13 @@ const superThat = (function () {
         z + _settings.pivotOffsetYZ[1]
       )
       threeCompositeObject.position.add(_threeTranslation)
-    }) //end loop on composite objects
+      // end loop on composite objects
+    })
   }
 
   // public methods:
-  const that = {
-    init: function (spec, threeObjects, detectCallback) {
+  return {
+    init(spec, threeObjects, detectCallback) {
       _maxFaces = spec.maxFacesDetected
       _videoElement = spec.videoElement
 
@@ -134,32 +146,38 @@ const superThat = (function () {
         _detectCallback = detectCallback
       }
 
-      _threeTranslation = new THREE.Vector3()
-      _threeProjMatrix = new THREE.Matrix4()
+      _threeTranslation = new Vector3()
+      _threeProjMatrix = new Matrix4()
     },
 
-    update: function (detectStates, threeCamera) {
+    update(detectStates, threeCamera) {
       // update detection states then poses:
       detect(detectStates)
       update_poses(detectStates, threeCamera)
     },
 
     // create an occluder, IE a transparent object which writes on the depth buffer:
-    create_occluder: function (occluderGeometry) {
-      const occluderMaterial = new THREE.ShaderMaterial({
-        vertexShader: THREE.ShaderLib.basic.vertexShader,
+    create_occluder(occluderGeometry) {
+      const occluderMaterial = new ShaderMaterial({
+        vertexShader: ShaderLib.basic.vertexShader,
+
         fragmentShader:
           "precision lowp float;\n void main(void){\n gl_FragColor=vec4(1.,0.,0.,1.);\n }",
-        uniforms: THREE.ShaderLib.basic.uniforms,
+
+        uniforms: ShaderLib.basic.uniforms,
         colorWrite: false,
       })
-      const occluderMesh = new THREE.Mesh(occluderGeometry, occluderMaterial)
-      occluderMesh.renderOrder = -1 // render first
+      const occluderMesh = new Mesh(occluderGeometry, occluderMaterial)
+
+      // render first
+      occluderMesh.renderOrder = -1
+
       return occluderMesh
     },
 
-    update_camera: function (sizing, threeCamera) {
-      if (_maxFaces === -1) return // not initialized
+    update_camera(sizing, threeCamera) {
+      // not initialized
+      if (_maxFaces === -1) return
 
       // reset camera position:
       if (threeCamera.matrixAutoUpdate) {
@@ -171,17 +189,19 @@ const superThat = (function () {
       // compute aspectRatio:
       const cvw = sizing.width
       const cvh = sizing.height
+
       _canvasAspectRatio = cvw / cvh
 
       // compute vertical field of view:
       const vw = _videoElement.videoWidth
       const vh = _videoElement.videoHeight
       const videoAspectRatio = vw / vh
-      const fovFactor = vh > vw ? 1.0 / videoAspectRatio : 1.0
+      const fovFactor = vh > vw ? 1 / videoAspectRatio : 1
       const fov = _settings.cameraMinVideoDimFov * fovFactor
 
       // compute X and Y offsets in pixels:
-      let scale = 1.0
+      let scale = 1
+
       if (_canvasAspectRatio > videoAspectRatio) {
         // the canvas is more in landscape format than the video, so we crop top and bottom margins:
         scale = cvw / vw
@@ -189,10 +209,12 @@ const superThat = (function () {
         // the canvas is more in portrait format than the video, so we crop right and left margins:
         scale = cvh / vh
       }
-      const cvws = vw * scale,
-        cvhs = vh * scale
-      const offsetX = (cvws - cvw) / 2.0
-      const offsetY = (cvhs - cvh) / 2.0
+
+      const cvws = vw * scale
+      const cvhs = vh * scale
+      const offsetX = (cvws - cvw) / 2
+      const offsetY = (cvhs - cvh) / 2
+
       _scaleW = cvw / cvws
 
       if (
@@ -203,8 +225,10 @@ const superThat = (function () {
         threeCamera.view.offsetY === offsetY &&
         threeCamera.projectionMatrix.equals(_threeProjMatrix)
       ) {
-        return // nothing changed
+        // nothing changed
+        return
       }
+
       Object.assign(_previousSizing, sizing)
 
       // apply parameters:
@@ -221,7 +245,8 @@ const superThat = (function () {
       _threeProjMatrix.copy(threeCamera.projectionMatrix)
     },
   }
-  return that
 })()
 
-export const JeelizThreeFiberHelper = superThat
+const JeelizThreeFiberHelper = superThat
+
+export default JeelizThreeFiberHelper
