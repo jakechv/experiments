@@ -6,15 +6,6 @@ import Prose from "./pages/prose"
 import FaceFilter from "./pages/faceFilter"
 import TextRoutes from "./pages/text"
 
-function App({ scene = 4 }) {
-  return (
-    <>
-      {scene === 4 && <FaceFilter />}
-      {scene === 5 && <Prose />}
-    </>
-  )
-}
-
 function Body() {
   return (
     <Router>
@@ -25,10 +16,10 @@ function Body() {
               <Redirect to="/prose" />
             </Route>
             <Route exact path="/facefilter">
-              <App scene={4} />
+              <FaceFilter />
             </Route>
             <Route exact path="/prose">
-              <App scene={5} />
+              <Prose />
             </Route>
             <Route path="/text" component={TextRoutes} />
           </Switch>
