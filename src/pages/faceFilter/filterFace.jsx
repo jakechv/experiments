@@ -1,8 +1,6 @@
 import React, { Component } from "react"
 import { Canvas, useFrame, useThree, useUpdate } from "react-three-fiber"
 
-import "./index.scss"
-
 // import main script and neural network model from Jeeliz FaceFilter NPM package
 import { JEEFACEFILTERAPI, NN_4EXPR } from "facefilter"
 
@@ -194,7 +192,15 @@ class FilterFace extends Component {
   render() {
     // generate canvases:
     return (
-      <div>
+      <div
+        style={{
+          fontSize: "1em",
+          margin: 0,
+          textAlign: "center",
+          overflow: "hidden",
+          backgroundColor: "silver",
+        }}
+      >
         {/* Canvas managed by three fiber, for AR: */}
         <Canvas
           style={{
