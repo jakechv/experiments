@@ -6,3 +6,5 @@ worth exploring:
 ??? do i need the framework from next.js, really?
 * add socket-based interactive demo
 see https://www.reddit.com/r/threejs/comments/jb943l/roadmap_to_this_as_a_js_developer/
+* website display own source code
+mouse over part of the webpage and it shows the code behind the page syntax highlighted or something
