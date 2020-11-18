@@ -4,7 +4,7 @@ worth exploring:
 - razzle
 - next.js
 ??? do i need the framework from next.js, really?
-
+https://nextjs.org/docs/advanced-features/dynamic-import#with-no-ssr dynamic imports with nextjs
 to work with drei: lazy load the component using loadable-componnets
 this wrks because lazy loaded components won't try to render server-side
 (this might be a good idea for threejs canvas anyways!)
