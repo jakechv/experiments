@@ -36,6 +36,6 @@ creating and iterating on individual experience. I like the idea of the index as
 Some features to add:
 - Tags (3D, 2D, CSS, ThreeJS, UX, etc..)
 - Individual pages for each (each experiment is a single page application)
-
+https://github.com/vercel/next.js/blob/canary/examples/with-three-js/next.config.js
 
 https://maple.pet/webgbcam/ webcam with good look !
